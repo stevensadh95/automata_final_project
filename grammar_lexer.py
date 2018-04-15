@@ -108,42 +108,53 @@ def create_symbol_table(sentence):
     return table
 
 def main():
-    prod_dict2 = {}
     rules = read_production_rules("Poem.g")
     grammar = []
 
     for i in rules:
         grammar.append(split_definition(i))
 
+
+    grammar_dict = grammar_to_dict(grammar)
     print('----------------------------------')
     print('Welcome to Grammar/Lexicon Central')
     print('')
     print('----------------------------------')
-    grammar_dict = grammar_to_dict(grammar)
-    end = ' BlQWdW'
+    while True: 
+        choice = input('Please select an option:\n1. Random Sentence from grammar\n2. FSM sentence checker + tokenizer\nAny key to quit\n')
+        if choice == '1':
+            
+            s = clear_whitespace(evaluate_grammar(grammar_dict))
+            print('Sentence: {}\n'.format(s))
+        elif choice == '2':
+ 
+            end = ' BlQWdW'
+            # some default test cases
+            # s = 'they eats pie?'
+            # s = 'The waves die grumpily tonight.'               #example of incorrect symbol table
+            # s = 'they read piano'
 
-    # some default test cases
-    # s = 'they eats pie?'
-    # s = 'The waves die grumpily tonight.'               #example of incorrect symbol table
-    # s = 'they read piano'
 
+            s = clear_whitespace(evaluate_grammar(grammar_dict))
+            
+            input_str = re.findall(r"[\w']+|[.,!?;:]",(s+end))
+            symbols = create_symbol_table(input_str)
 
-    s = clear_whitespace(evaluate_grammar(grammar_dict))
-    print('\n{}'.format(s))
-    input_str = re.findall(r"[\w']+|[.,!?;:]",(s+end))
-    symbols = create_symbol_table(input_str)
+            print('Symbol Table\n')
+            for i in symbols.items():print(i)
 
-    print('Symbol Table\n')
-    for i in symbols.items():print(i)
+            print('\n1Tokenizing with FSM')
+            s1 = Sentence(symbols)
+            for word in input_str:
+                try:
+                    s1.on_input(word)
+                except AttributeError as e:
+                    print('\nNO new state acquired. FAIL!')
+                    break
+        else:
+            print('Quiting...')
+            exit()
 
-    print('Tokenizing with FSM')
-    s1 = Sentence(symbols)
-    for word in input_str:
-        try:
-            s1.on_input(word)
-        except AttributeError as e:
-            print('\nNO new state acquired. FAIL!')
-            break
 
 if __name__ == '__main__':
     main()
