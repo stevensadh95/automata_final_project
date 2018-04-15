@@ -1,5 +1,6 @@
-import re
+import re, os
 from random import randint
+from random import choice as c
 from fsm2 import Sentence
 from word_check import word_type as part
 
@@ -108,14 +109,22 @@ def create_symbol_table(sentence):
     return table
 
 def main():
-    rules = read_production_rules("Poem.g")
-    grammar = []
+    files = os.listdir('grammar')
+    while True:
+        try:
+            in_file = c(files)
+            rules = read_production_rules(os.path.join('grammar',in_file))
+            grammar = []
 
-    for i in rules:
-        grammar.append(split_definition(i))
+            for i in rules:
+                grammar.append(split_definition(i))
 
 
-    grammar_dict = grammar_to_dict(grammar)
+            grammar_dict = grammar_to_dict(grammar)
+            s = clear_whitespace(evaluate_grammar(grammar_dict))
+            break
+        except:
+            pass
     print('----------------------------------')
     print('Welcome to Grammar/Lexicon Central')
     print('')
@@ -123,8 +132,8 @@ def main():
     while True: 
         choice = input('Please select an option:\n1. Random Sentence from grammar\n2. FSM sentence checker + tokenizer\nAny key to quit\n')
         if choice == '1':
+            print('Grammar input: {}'.format(in_file))
             
-            s = clear_whitespace(evaluate_grammar(grammar_dict))
             print('Sentence: {}\n'.format(s))
         elif choice == '2':
  
