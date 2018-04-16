@@ -54,6 +54,7 @@ def part_of_speech(abr):
 	abr = abr.split()[0]
 	# print(abr)
 	f = open('xml_files/gcide_abbreviations.xml', 'r')
+	
 	data = f.readlines()
 	for line in data:
 		if (re.findall('<ab.entry><ab>*{}*</ab> '.format(abr), line)) != []:

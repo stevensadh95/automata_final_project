@@ -64,7 +64,9 @@ class VerbState(State):
         elif 'CONJUNCTION' in self.bag[event].upper():
             print('(<Conjunction>: {})'.format(event))
             return TransitState(self.bag)
-
+        elif 'PREPOSITION' in self.bag[event].upper():
+            print('(<Preposition>: {})'.format(event))
+            return PrepositionState(self.bag)
 class ConjuctionState(State):
 
     def on_input(self, event):
@@ -114,10 +116,24 @@ class TransitState(State):
             return VerbState(self.bag)
         elif 'PREPOSITION' in self.bag[event].upper():
             print('(<Preposition>: {})'.format(event))
-            return SubjectState(self.bag)
+            return PrepositionState(self.bag)
         elif event == 'BlQWdW':
             print('Valid sentence')
             return FinalState(self.bag)
+
+
+class PrepositionState(State):
+
+    def on_input(self, event):
+        if 'PREPOSITION' in self.bag[event].upper():
+            # print('(<Object>:  {})'.format(event))
+            return None
+        elif 'PUNCTUATION' in self.bag[event].upper():
+            print('(<Punctuation>: {})'.format(event))
+            return TransitState(self.bag)
+        elif 'PRONOUN' in self.bag[event].upper():
+            print('(<Pronoun>: {})'.format(event))
+            return TransitState(self.bag)
 
 class FinalState(State):
 

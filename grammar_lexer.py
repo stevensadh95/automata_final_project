@@ -96,6 +96,9 @@ def create_symbol_table(sentence):
             elif word[0].isdigit():
                 table[word] = 'NUMBER'
             else:
+                if 'THE' == word.upper():
+                    table[word] = 'PRONOUN'
+                    continue
                 if word not in table.keys():
                     table[word] = part(clear_whitespace(word.lower()))   
     # table = {'The': 'Pronoun',
@@ -114,6 +117,7 @@ def get_file():
     while True:
         try:
             in_file = c(files)
+            in_file = 'Poem.g'
             rules = read_production_rules(os.path.join('grammar',in_file))
             grammar = []
 
@@ -134,6 +138,7 @@ def main():
     print('----------------------------------')
     while True: 
         s, in_file, grammar_dict = get_file()
+
         choice = input('Please select an option:\n1. Random Sentence from grammar\n2. FSM sentence checker + tokenizer\nAny key to quit\n')
         if choice == '1':
             print('Grammar input: {}'.format(in_file))
@@ -149,7 +154,8 @@ def main():
 
 
             s = clear_whitespace(evaluate_grammar(grammar_dict))
-            
+            # s = 'The quick, brown fox jumps over the lazy dog.'
+
             input_str = re.findall(r"[\w']+|[.,!?;:]",(s+end))
             symbols = create_symbol_table(input_str)
 
