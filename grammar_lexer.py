@@ -123,7 +123,7 @@ def get_file():
 
             grammar_dict = grammar_to_dict(grammar)
             s = clear_whitespace(evaluate_grammar(grammar_dict))
-            return s, in_file
+            return s, in_file, grammar_dict
         except:
             pass
 def main():
@@ -133,7 +133,7 @@ def main():
     print('')
     print('----------------------------------')
     while True: 
-        s, in_file = get_file()
+        s, in_file, grammar_dict = get_file()
         choice = input('Please select an option:\n1. Random Sentence from grammar\n2. FSM sentence checker + tokenizer\nAny key to quit\n')
         if choice == '1':
             print('Grammar input: {}'.format(in_file))
