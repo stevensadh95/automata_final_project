@@ -20,18 +20,18 @@ We;
 
 {
 <object>
-books	;             
-pizza ;          
-slugs	;
-bugs ;
-piano ;
+coffee	;
+laptop ;
+food	;
+gun ;
+cheese ;
 }
 
 {
 <verb>
 like;
-plays	;
-read 	;
+hate	;
+sees	;
 eats ;       
 }
 
