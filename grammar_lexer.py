@@ -25,7 +25,7 @@ def grammar_to_dict(production_list):
     prod_dict = {}
 
     for prod in production_list:
-        nonterminal = prod[0]
+        nonterminal = prod[0].strip()
         other_terms = []
         for x in prod:
             words2 =[]
